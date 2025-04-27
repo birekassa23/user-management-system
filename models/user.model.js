@@ -1,3 +1,4 @@
+// models/user.model.js
 import mongoose from "mongoose";
 
 // Define the User schema

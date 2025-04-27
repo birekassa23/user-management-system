@@ -2,10 +2,9 @@
 
 import { User } from "../models/user.model.js";
 
-// Controller function for user registration
 export const registerUser = async (req, res) => {
     try {
-        const { full_name, email, password, avatar } = req.body;
+        const { fullName, email, password, role, avatar } = req.body;
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
@@ -15,9 +14,10 @@ export const registerUser = async (req, res) => {
 
         // Create new user
         const user = await User.create({
-            full_name,
+            fullName,
             email,
             password,
+            role,
             avatar,
         });
 
@@ -27,6 +27,6 @@ export const registerUser = async (req, res) => {
             user,
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: "Registeration faild !", error: error.message });
+        res.status(500).json({ success: false, message: "Registration failed!", error: error.message });
     }
 };
