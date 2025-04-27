@@ -27,6 +27,6 @@ export const registerUser = async (req, res) => {
             user,
         });
     } catch (error) {
-        res.status(500).json({ success: false, message: "Server Error", error: error.message });
+        res.status(500).json({ success: false, message: "Registeration faild !", error: error.message });
     }
 };

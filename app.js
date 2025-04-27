@@ -1,4 +1,3 @@
-// app.js
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
@@ -21,6 +20,17 @@ app.get("/", (req, res) => {
 
 // User routes
 app.use("/api/users", userRoutes);
+
+// 404 Error handler (if no route is matched)
+app.use((req, res, next) => {
+    res.status(404).json({ success: false, message: "Route not found" });
+});
+
+// Global error handler
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ success: false, message: "Something went wrong!", error: err.message });
+});
 
 // Start the server
 app.listen(port, () => {
