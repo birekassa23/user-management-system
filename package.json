@@ -1,0 +1,23 @@
+{
+  "name": "user-management-system",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/birekassa23/user-management-system.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/birekassa23/user-management-system/issues"
+  },
+  "homepage": "https://github.com/birekassa23/user-management-system#readme",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
