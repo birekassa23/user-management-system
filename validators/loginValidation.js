@@ -12,4 +12,4 @@ const loginValidation = [
         .withMessage('Password is required')
 ];
 
-export default loginValidation; // ✅ Make it a default export
+export default loginValidation; // Make it a default export
