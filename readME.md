@@ -3,7 +3,7 @@
 ### 1. **User Registration**
 - Fields: `name`, `email`, `password`, `avatar (optional)` i have done this
 - Validate user input. i have done this
-- Hash the password before saving.
+- Hash the password before saving. i have done this
 - Save avatar if uploaded (using `Multer` for file upload).
 
 ### 2. **User Login**

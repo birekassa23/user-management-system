@@ -22,7 +22,7 @@ const registrationValidation = [
     // Validate 'role' (Optional, but if provided, it should be one of the allowed roles)
     body('role')
         .optional()
-        .isIn(['admin', 'editor', 'user']).withMessage('Role must be one of the following: admin, editor, user'),
+        .isIn(['admin', 'editor', 'viewer']).withMessage('Role must be one of the following: admin, editor, viewer'),
 
     // Final middleware to check validation result
     (req, res, next) => {

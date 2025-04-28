@@ -1,5 +1,6 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
+import upload from "../middleware/upload.js";  
 
 export const registerUser = async (req, res) => {
     try {
@@ -34,7 +35,8 @@ export const registerUser = async (req, res) => {
     }
 };
 
-
+// Middleware for handling avatar upload
+export const uploadAvatar = upload.single('avatar');
 
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;

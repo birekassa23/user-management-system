@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema(
         role: {
             type: String,
             required: true,
-            enum: ['admin', 'editor', 'user'], // Correct enum validation
+            enum: ['admin', 'editor', 'viewer'], // Correct enum validation
         },
         avatar: {
             type: String, // URL or file path of the uploaded avatar
