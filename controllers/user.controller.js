@@ -1,107 +1,128 @@
 // controllers/user.controller.js
-// This file contain user registration ,login and avatetrUpload logic;
 
+// Import necessary modules and models
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import multer from "multer";
 import path from "path";
 
-
-// the user registration logic
+/* 
+=====================================
+ User Registration Controller
+=====================================
+*/
 export const registerUser = async (req, res) => {
     try {
         const { fullName, email, password, role, avatar } = req.body;
 
-        // Check if user already exists
+        // Check if the user already exists in the database
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ message: "Email is already registered" });
         }
 
-        // Hash the password before saving it to the database
-        const salt = await bcrypt.genSalt(10);  // Generate a salt with 10 rounds
-        const hashedPassword = await bcrypt.hash(password, salt);  // Hash the password
+        // Hash the password before saving
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
 
-        // Create new user with the hashed password
+        // Create new user record
         const user = await User.create({
             fullName,
             email,
-            password: hashedPassword,  // Save the hashed password
+            password: hashedPassword,
             role,
-            avatar,
+            avatar, // optional, if using avatar upload
         });
 
         res.status(201).json({
             success: true,
             message: "User registered successfully",
-            user,
+            data: user,
         });
+
     } catch (error) {
-        res.status(500).json({ success: false, message: "Registration failed!", error: error.message });
+        res.status(500).json({
+            success: false,
+            message: "Registration failed!",
+            error: error.message
+        });
     }
 };
 
-// Middleware for handling avatar upload
-export const uploadAvatar = upload.single('avatar');
-
-
-// Define the storage destination and filename for uploaded files
-export const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "assets/uploads/avatars/"); // Set the destination folder
-    },
-    filename: (req, file, cb) => {
-        const fileExt = path.extname(file.originalname); // Get file extension (e.g., .jpg)
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9); // Unique suffix to avoid name conflicts
-        cb(null, file.fieldname + '-' + uniqueSuffix + fileExt); // Final file name: avatar-123456789.jpg
-    }
-});
-
-// Create the multer upload instance separately
-const upload = multer({
-    storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
-    fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jpg|png|gif/; // Allowed file types
-        const mimeType = fileTypes.test(file.mimetype); // Check MIME type
-        const extname = fileTypes.test(path.extname(file.originalname).toLowerCase()); // Check file extension
-        if (mimeType && extname) {
-            return cb(null, true); // Accept the file
-        }
-        cb(new Error("Only image files (jpg, jpeg, png, gif) are allowed"), false); // Reject the file
-    }
-});
-
-// Export upload instance as default
-export default upload;
-
-
-
-
-// user login logic
+/* 
+=====================================
+ User Login Controller
+=====================================
+*/
 export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Find user by email
+        // Find the user by email
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // Compare the entered password with the hashed one stored in the database
+        // Validate the password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // If passwords match, proceed with login (e.g., generate JWT token)
+        // TODO: Generate and return a JWT token here (for better authentication)
+
         res.status(200).json({
             success: true,
             message: "Login successful",
-            user,
+            data: user,
         });
+
     } catch (error) {
-        res.status(500).json({ success: false, message: "Login failed!", error: error.message });
+        res.status(500).json({
+            success: false,
+            message: "Login failed!",
+            error: error.message
+        });
     }
 };
+
+/* 
+=====================================
+ Multer Storage Config for Avatar Upload
+=====================================
+*/
+
+// Define storage destination and filename for avatars
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, "assets/uploads/avatars/"); // Set the upload directory
+    },
+    filename: (req, file, cb) => {
+        const fileExt = path.extname(file.originalname); // Get file extension
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, `avatar-${uniqueSuffix}${fileExt}`); // Example: avatar-23423234.jpg
+    }
+});
+
+// File filter to allow only specific image types
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = /jpeg|jpg|png|gif/;
+    const mimeType = allowedTypes.test(file.mimetype);
+    const extName = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+
+    if (mimeType && extName) {
+        return cb(null, true); // Accept the file
+    }
+    cb(new Error("Only image files (jpeg, jpg, png, gif) are allowed"));
+};
+
+// Create multer instance for avatar upload
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB size limit
+    fileFilter,
+});
+
+// Middleware to handle avatar upload
+export const uploadAvatar = upload.single('avatar');
