@@ -4,7 +4,7 @@
 - Fields: `name`, `email`, `password`, `avatar (optional)` i have done this
 - Validate user input. i have done this
 - Hash the password before saving. i have done this
-- Save avatar if uploaded (using `Multer` for file upload).
+- Save avatar if uploaded (using `Multer` for file upload). i have done this
 
 ### 2. **User Login**
 - User submits `email` and `password`.

@@ -1,34 +1,34 @@
 // config/upload.js
 
-import multer from "multer";
-import path from "path";
+import multer from "multer"; // Import multer
+import path from "path"; // Import path module
 
-// Define the storage destination and filename for the uploaded files
+// Define the storage destination and filename for uploaded files
 export const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        // Set the destination folder for uploaded files
-        cb(null, "assets/uploads/avatars/");
+        cb(null, "assets/uploads/avatars/"); // Set the destination folder
     },
-
     filename: (req, file, cb) => {
-        // Set the filename of the uploaded file
-        const fileExt = path.extname(file.originalname); // Get file extension
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9); // Add a unique suffix
-        cb(null, file.fieldname + '-' + uniqueSuffix + fileExt); // File name: avatar-<uniqueId>.jpg/png/etc.
+        const fileExt = path.extname(file.originalname); // Get file extension (e.g., .jpg)
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9); // Unique suffix to avoid name conflicts
+        cb(null, file.fieldname + '-' + uniqueSuffix + fileExt); // Final file name: avatar-123456789.jpg
     }
 });
 
-// Set file size limit and file type filters
-export const upload = multer({
+// Create the multer upload instance separately
+const upload = multer({
     storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit for the avatar
+    limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size to 5MB
     fileFilter: (req, file, cb) => {
-        const fileTypes = /jpeg|jpg|png|gif/;
-        const mimeType = fileTypes.test(file.mimetype);
-        const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+        const fileTypes = /jpeg|jpg|png|gif/; // Allowed file types
+        const mimeType = fileTypes.test(file.mimetype); // Check MIME type
+        const extname = fileTypes.test(path.extname(file.originalname).toLowerCase()); // Check file extension
         if (mimeType && extname) {
-            return cb(null, true); // Allow file
+            return cb(null, true); // Accept the file
         }
-        cb(new Error("Only image files (jpg, jpeg, png, gif) are allowed"), false); // Reject file
+        cb(new Error("Only image files (jpg, jpeg, png, gif) are allowed"), false); // Reject the file
     }
 });
+
+// Export upload instance as default
+export default upload;

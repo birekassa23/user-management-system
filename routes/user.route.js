@@ -2,10 +2,21 @@
 
 import express from 'express';
 import registrationValidation from '../validators/registrationValidation.js';
-import { registerUser } from '../controllers/user.controller.js';
+import loginValidation from '../validators/loginValidation.js'; // ✅ Import login validation
+import { registerUser, loginUser } from '../controllers/user.controller.js';
+import upload from '../middleware/upload.js'; // ✅ Import the correct upload
+
 const router = express.Router();
 
 // POST /api/auth/register
-router.post('/register', registrationValidation, uploadAvatar, registerUser);
+router.post(
+    '/register',
+    registrationValidation,
+    upload.single('avatar'), // ✅ Correct multer usage for single avatar upload
+    registerUser
+);
 
-export default router; 
+// POST /api/auth/login
+router.post('/login', loginValidation, loginUser); // ✅ Corrected login route
+
+export default router;
