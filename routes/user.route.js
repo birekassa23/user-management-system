@@ -2,9 +2,9 @@
 
 import express from 'express';
 import registrationValidation from '../validators/registrationValidation.js';
-import loginValidation from '../validators/loginValidation.js'; // ✅ Import login validation
+import loginValidation from '../validators/loginValidation.js';
 import { registerUser, loginUser } from '../controllers/user.controller.js';
-import upload from '../middleware/upload.js'; // ✅ Import the correct upload
+import upload from '../middlewares/upload.js';
 
 const router = express.Router();
 
@@ -12,11 +12,11 @@ const router = express.Router();
 router.post(
     '/register',
     registrationValidation,
-    upload.single('avatar'), // ✅ Correct multer usage for single avatar upload
+    upload.single('avatar'), //  Correct multer usage for single avatar upload
     registerUser
 );
 
 // POST /api/auth/login
-router.post('/login', loginValidation, loginUser); // ✅ Corrected login route
+router.post('/login', loginValidation, loginUser);
 
 export default router;
