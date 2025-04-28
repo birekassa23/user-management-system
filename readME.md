@@ -1,8 +1,8 @@
 # 🏗️ Structure of the User Authentication and Authorization System
 
 ### 1. **User Registration**
-- Fields: `name`, `email`, `password`, `avatar (optional)`
-- Validate user input.
+- Fields: `name`, `email`, `password`, `avatar (optional)` i have done this
+- Validate user input. i have done this
 - Hash the password before saving.
 - Save avatar if uploaded (using `Multer` for file upload).
 
