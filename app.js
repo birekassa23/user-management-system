@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import { create_to_mongo_DB } from "./config/database-conn.js";
-import authRoutes from "./routes/auth.route.js";
+import authenticationRoutes from "./routes/authentication.route.js";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 });
 
 // User routes
-app.use("/api/users", authRoutes);
+app.use("/api/users", authenticationRoutes);
 
 // 404 Error handler (if no route is matched)
 app.use((req, res, next) => {

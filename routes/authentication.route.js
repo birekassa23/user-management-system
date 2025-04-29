@@ -1,11 +1,10 @@
-// routes/user.route.js
-// routes/authRoutes.js
+// routes/authentication.route.js
 
 import express from 'express';
 import registrationValidation from '../validators/registrationValidation.js';
 import loginValidation from '../validators/loginValidation.js';
 import { registerUser, loginUser } from '../controllers/user.controller.js';
-import upload from '../middlewares/upload.js'; 
+import upload from '../middlewares/upload.js';
 
 const router = express.Router();
 
