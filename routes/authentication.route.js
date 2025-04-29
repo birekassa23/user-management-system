@@ -1,22 +1,26 @@
 import express from 'express';
 import registrationValidation from '../validators/registrationValidation.js';
 import loginValidation from '../validators/loginValidation.js';
-import { registerUser, loginUser } from '../controllers/user.controller.js';
+import { registerUser, loginUser, updateAvatar } from '../controllers/user.controller.js';
 import { forgotPassword, resetPassword } from '../controllers/authentication.controller.js';
 import upload from '../middlewares/upload.js';
+import { authenticateUser } from '../middlewares/authorizationMiddleware.js'; // ✅ Add this
 
 const router = express.Router();
 
-// Route for user registration
+// ✅ Registration route
 router.post('/register', registrationValidation, upload.single('avatar'), registerUser);
 
-// Route for user login
+// ✅ Login route
 router.post('/login', loginValidation, loginUser);
 
-// Route for forgot password
+// ✅ Forgot password
 router.post('/forgot-password', forgotPassword);
 
-// Route for reset password
+// ✅ Reset password
 router.post('/reset-password/:token', resetPassword);
+
+// ✅ Update avatar route (requires authentication)
+router.put('/update-avatar', authenticateUser, upload.single('avatar'), updateAvatar);
 
 export default router;

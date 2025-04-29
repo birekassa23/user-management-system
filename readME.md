@@ -9,11 +9,11 @@
 ### 2. **User Login**
 - User submits `email` and `password`. ✅
 - Find user → Compare password hash. ✅
-- If valid, generate and send a **JWT token**.
+- If valid, generate and send a **JWT token**.✅
 
 ### 3. **Password Reset**
-- User submits email → Send a **reset password token** via email.
-- Token allows user to set a new password securely.
+- User submits email → Send a **reset password token** via email.✅
+- Token allows user to set a new password securely.✅
 
 ### 4. **Avatar Update**
 - Allow user to upload or replace avatar anytime.

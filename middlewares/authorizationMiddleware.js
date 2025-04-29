@@ -3,7 +3,7 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 
-export const protect = async (req, res, next) => {
+export const authenticateUser = async (req, res, next) => {
     try {
         // 1. Get token from header
         let token = req.headers.authorization?.split(' ')[1];

@@ -4,6 +4,8 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import fs from "fs";
+import path from "path";
 
 
 /* 
@@ -110,4 +112,45 @@ export const getMe = (req, res) => {
         success: true,
         user: req.user
     });
+};
+
+
+// =======================================
+// ✅ Update Avatar Controller
+// =======================================
+export const updateAvatar = async (req, res) => {
+    try {
+        const userId = req.user._id;                     // Get logged-in user ID from middleware
+        const user = await User.findById(userId);        // Find user from DB
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        if (!req.file) {
+            return res.status(400).json({ message: "No avatar uploaded" });
+        }
+
+        // ✅ Delete old avatar if it exists
+        if (user.avatar) {
+            const oldPath = path.join("uploads", user.avatar); // Build path to old avatar
+            if (fs.existsSync(oldPath)) {
+                fs.unlinkSync(oldPath); // Delete the old file
+            }
+        }
+
+        // ✅ Save the new avatar filename to user profile
+        user.avatar = req.file.filename;
+        await user.save();
+
+        res.status(200).json({
+            success: true,
+            message: "Avatar updated successfully",
+            avatar: user.avatar
+        });
+
+    } catch (error) {
+        console.error("Error updating avatar:", error);
+        res.status(500).json({ message: "Server error" });
+    }
 };
