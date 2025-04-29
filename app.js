@@ -1,17 +1,19 @@
 // app.js
 import dotenv from "dotenv";
-dotenv.config();
-import express from "express";
-import { create_to_mongo_DB } from "./config/database-conn.js";
-import authenticationRoutes from "./routes/authentication.route.js";
+dotenv.config(); // Load environment variables (.env file)
 
-const app = express();
-const port = process.env.PORT || 3001;
+import express from "express";
+import { create_to_mongo_DB } from "./config/database-conn.js"; // Connect MongoDB
+import authenticationRoutes from "./routes/authentication.route.js"; // Authentication routes
+import authorizationRoutes from "./routes/authorization.routes.js"; // Authorization routes
+
+const app = express(); // Create Express app
+const port = process.env.PORT || 3001; // Set port
 
 // Connect to MongoDB
 create_to_mongo_DB();
 
-// Middleware setup
+// Middleware to parse JSON requests
 app.use(express.json());
 
 // Home route
@@ -19,10 +21,13 @@ app.get("/", (req, res) => {
     res.send("WELCOME TO HOME PAGE!");
 });
 
-// User routes
+// Authentication routes
 app.use("/api/users", authenticationRoutes);
 
-// 404 Error handler (if no route is matched)
+// Authorization routes
+app.use("/api/users", authorizationRoutes);
+
+// 404 handler if route not found
 app.use((req, res, next) => {
     res.status(404).json({
         success: false,

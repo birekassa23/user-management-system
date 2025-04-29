@@ -1,4 +1,3 @@
-// models/user.model.js
 import mongoose from "mongoose";
 
 // Define the User schema
@@ -31,6 +30,13 @@ const userSchema = new mongoose.Schema(
         avatar: {
             type: String, // URL or file path of the uploaded avatar
             default: "assets/images/default.png", // Default avatar if none is uploaded
+        },
+        // Added fields for forgot password functionality
+        resetToken: { // Temporary token for password reset
+            type: String,
+        },
+        resetTokenExpiration: { // Expiration time for the reset token
+            type: Date,
         },
     },
     { timestamps: true } // Automatically add createdAt and updatedAt
