@@ -8,7 +8,7 @@ import authenticationRoutes from "./routes/authentication.route.js"; // Authenti
 import authorizationRoutes from "./routes/authorization.routes.js"; // Authorization routes
 
 const app = express(); // Create Express app
-const port = process.env.PORT || 3001; // Set port
+const port = process.env.PORT || 3000; // Set port
 
 // Connect to MongoDB
 create_to_mongo_DB();
