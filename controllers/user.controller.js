@@ -3,8 +3,8 @@
 // Import necessary modules and models
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import multer from "multer";
-import path from "path";
+import jwt from "jsonwebtoken";
+
 
 /* 
 =====================================
@@ -49,6 +49,7 @@ export const registerUser = async (req, res) => {
     }
 };
 
+
 /* 
 =====================================
  User Login Controller
@@ -58,24 +59,40 @@ export const loginUser = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        // Find the user by email
+        // 1. Find the user by email
         const user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // Validate the password
+        // 2. Validate the password
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             return res.status(400).json({ message: "Invalid credentials" });
         }
 
-        // TODO: Generate and return a JWT token here (for better authentication)
+        // 3. Generate a JWT token
+        const token = jwt.sign(
+            {
+                id: user._id,    // Save user ID inside token
+                role: user.role  // Save user role inside token
+            },
+            process.env.JWT_SECRET, // Secret key from .env file
+            { expiresIn: '7d' }      // Token expires after 7 days
+        );
 
+        // 4. Send token and user info to frontend
         res.status(200).json({
             success: true,
             message: "Login successful",
-            data: user,
+            token, // Sending token
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+                avatar: user.avatar
+            }
         });
 
     } catch (error) {
@@ -86,43 +103,3 @@ export const loginUser = async (req, res) => {
         });
     }
 };
-
-/* 
-=====================================
- Multer Storage Config for Avatar Upload
-=====================================
-*/
-
-// Define storage destination and filename for avatars
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "assets/uploads/avatars/"); // Set the upload directory
-    },
-    filename: (req, file, cb) => {
-        const fileExt = path.extname(file.originalname); // Get file extension
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, `avatar-${uniqueSuffix}${fileExt}`); // Example: avatar-23423234.jpg
-    }
-});
-
-// File filter to allow only specific image types
-const fileFilter = (req, file, cb) => {
-    const allowedTypes = /jpeg|jpg|png|gif/;
-    const mimeType = allowedTypes.test(file.mimetype);
-    const extName = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-
-    if (mimeType && extName) {
-        return cb(null, true); // Accept the file
-    }
-    cb(new Error("Only image files (jpeg, jpg, png, gif) are allowed"));
-};
-
-// Create multer instance for avatar upload
-const upload = multer({
-    storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB size limit
-    fileFilter,
-});
-
-// Middleware to handle avatar upload
-export const uploadAvatar = upload.single('avatar');

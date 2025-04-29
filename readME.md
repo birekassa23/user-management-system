@@ -1,5 +1,5 @@
 # 🏗️ Structure of the User Authentication and Authorization System
-
+✅ <- this synbol indicate i have finished this else i have't do that 
 ### 1. **User Registration**
 - Fields: `name`, `email`, `password`, `avatar (optional)` ✅
 - Validate user input. ✅

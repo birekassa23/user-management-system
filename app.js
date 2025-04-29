@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import { create_to_mongo_DB } from "./config/database-conn.js";
-import userRoutes from "./routes/user.route.js";
+import authRoutes from "./routes/auth.route.js";
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -20,17 +20,24 @@ app.get("/", (req, res) => {
 });
 
 // User routes
-app.use("/api/users", userRoutes);
+app.use("/api/users", authRoutes);
 
 // 404 Error handler (if no route is matched)
 app.use((req, res, next) => {
-    res.status(404).json({ success: false, message: "Route not found" });
+    res.status(404).json({
+        success: false,
+        message: "Route not found !"
+    });
 });
 
 // Global error handler
 app.use((err, req, res, next) => {
     console.error(err.stack);
-    res.status(500).json({ success: false, message: "Something went wrong!", error: err.message });
+    res.status(500).json({
+        success: false,
+        message: "Something went wrong!",
+        error: err.message
+    });
 });
 
 // Start the server
