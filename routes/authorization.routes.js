@@ -1,16 +1,10 @@
-// routes/authorization.routes.js
-
 import express from 'express';
-import { protect } from '../middlewares/authorizationMiddleware.js'; // Middleware to protect routes
-import { getMe } from '../controllers/user.controller.js'; // Controller to get logged-in user info
+import { protect } from '../middlewares/authorizationMiddleware.js';
+import { getMe } from '../controllers/user.controller.js';
 
-const router = express.Router(); // Create a router
+const router = express.Router();
 
-// Route to get logged-in user's own profile
-router.get('/me',
-    protect, // Check if user has a valid token
-    getMe // Return user info
-);
+// Route to get logged-in user's profile
+router.get('/me', protect, getMe);
 
 export default router;
-
