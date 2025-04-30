@@ -10,22 +10,42 @@ import { authenticateUser } from '../middlewares/authorizationMiddleware.js';
 const router = express.Router();
 
 // =====================================
-// ✅ Auth Routes
+//  Auth Routes
 // =====================================
 
 // Register a new user (with optional avatar upload)
-router.post('/register', registrationValidation, upload.single('avatar'), registerUser);
+router.post(
+    '/register',
+    upload.single('avatar'),// First: parse form-data 
+    registrationValidation,// Then: validate the parsed text fields
+    registerUser // Then: handle registration logic
+);
+
 
 // Login user
-router.post('/login', loginValidation, loginUser);
+router.post(
+    '/login',
+    loginValidation,
+    loginUser
+);
 
 // Send password reset link
-router.post('/forgot-password', forgotPassword);
+router.post(
+    '/forgot-password',
+    forgotPassword
+);
 
 // Reset password with token
-router.post('/reset-password/:token', resetPassword);
+router.post(
+    '/reset-password/:token',
+    resetPassword
+);
 
 // Update avatar (protected route)
-router.put('/update-avatar', authenticateUser, upload.single('avatar'), updateAvatar);
+router.put(
+    '/update-avatar',
+    authenticateUser,
+    upload.single('avatar'),
+    updateAvatar);
 
 export default router;

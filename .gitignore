@@ -1,4 +1,6 @@
 # .gitignore file
 .env
+
+# folders
 /node_modules
-myQuestion.md
+/assets/uploads

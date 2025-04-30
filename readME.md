@@ -132,6 +132,9 @@ The `authorizeRole` middleware ensures that users can only access resources base
 
 ## **Folder Structure**
 ```bash
+
+|user-management-system/
+│
 ├── config                   # Configuration files
 │   └── database-conn.js      # MongoDB connection setup
 ├── controllers              # Controller files to handle requests and responses
