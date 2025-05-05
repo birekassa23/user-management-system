@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 
 // =====================================
-// ✅ Register User
+//  Register User
 // =====================================
 // Registers a new user with name, email, password, optional avatar, and role.
 export const registerUser = async (req, res) => {
@@ -52,7 +52,7 @@ export const registerUser = async (req, res) => {
 };
 
 // =====================================
-// ✅ Login User
+//  Login User
 // =====================================
 // Logs in a user with email and password, returns a JWT token upon success.
 export const loginUser = async (req, res) => {
@@ -98,7 +98,7 @@ export const loginUser = async (req, res) => {
 };
 
 // =====================================
-// ✅ Get Current Logged-In User
+//  Get Current Logged-In User
 // =====================================
 // Returns the profile of the currently logged-in user.
 export const getMe = (req, res) => {
@@ -109,7 +109,7 @@ export const getMe = (req, res) => {
 };
 
 // =====================================
-// ✅ Update Avatar
+//  Update Avatar
 // =====================================
 // Allows the logged-in user to upload a new avatar.
 export const updateAvatar = async (req, res) => {
@@ -147,7 +147,7 @@ export const updateAvatar = async (req, res) => {
 };
 
 // =====================================
-// ✅ Manage Users (Admin Only)
+//  Manage Users (Admin Only)
 // =====================================
 // Allows an admin to manage (view, edit, delete) users.
 export const manageUsers = (req, res) => {
@@ -166,7 +166,7 @@ export const manageUsers = (req, res) => {
 };
 
 // =====================================
-// ✅ Create/Modify Content (Editor Only)
+//  Create/Modify Content (Editor Only)
 // =====================================
 // Allows an editor to create or modify content.
 export const createContent = (req, res) => {
@@ -185,7 +185,7 @@ export const createContent = (req, res) => {
 };
 
 // =====================================
-// ✅ View Content (All Roles)
+//  View Content (All Roles)
 // =====================================
 // Allows any user (admin, editor, viewer) to view content.
 export const viewContent = (req, res) => {

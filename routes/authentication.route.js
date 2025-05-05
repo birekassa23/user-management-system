@@ -16,9 +16,9 @@ const router = express.Router();
 // Register a new user (with optional avatar upload)
 router.post(
     '/register',
-    upload.single('avatar'),// First: parse form-data 
-    registrationValidation,// Then: validate the parsed text fields
-    registerUser // Then: handle registration logic
+    upload.single('avatar'),
+    registrationValidation,
+    registerUser 
 );
 
 
