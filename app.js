@@ -1,19 +1,18 @@
 // app.js
 import dotenv from "dotenv";
-dotenv.config(); // Load environment variables (.env file)
-
+dotenv.config(); 
 import express from "express";
-import { create_to_mongo_DB } from "./config/database-conn.js"; // Connect MongoDB
-import authenticationRoutes from "./routes/authentication.route.js"; // Authentication routes
-import authorizationRoutes from "./routes/authorization.routes.js"; // Authorization routes
+import { create_to_mongo_DB } from "./config/database-conn.js"; 
+import authenticationRoutes from "./routes/authentication.route.js"; 
+import authorizationRoutes from "./routes/authorization.routes.js"; 
 
-const app = express(); // Create Express app
-const port = process.env.PORT || 3000; // Set port
+const app = express(); 
+const port = process.env.PORT || 3000; 
 
-// Connect to MongoDB
+
 create_to_mongo_DB();
 
-// Middleware to parse JSON requests
+// Middleware
 app.use(express.json());
 
 // Home route
