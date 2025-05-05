@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { User } from '../models/user.model.js';
 
 // =====================================
-// ✅ Authentication Middleware
+//  Authentication Middleware
 // =====================================
 // This middleware verifies the JWT token and attaches the logged-in user to req.user.
 export const authenticateUser = async (req, res, next) => {
@@ -35,8 +35,9 @@ export const authenticateUser = async (req, res, next) => {
     }
 };
 
+
 // =====================================
-// ✅ Authorization Middleware (Role-based)
+//  Authorization Middleware (Role-based)
 // =====================================
 // This middleware ensures that the user has the appropriate role to access a route.
 export const authorizeRole = (...roles) => {

@@ -6,7 +6,7 @@ import crypto from 'crypto';
 import { sendResetPasswordEmail } from '../utils/sendResetPasswordEmail.js';
 
 // =====================================
-// ✅ Forgot Password
+//  Forgot Password
 // =====================================
 // This function sends a reset password link to the user's email
 export const forgotPassword = async (req, res) => {
@@ -38,7 +38,7 @@ export const forgotPassword = async (req, res) => {
 };
 
 // =====================================
-// ✅ Reset Password
+//  Reset Password
 // =====================================
 // This function resets the user's password using a valid token
 export const resetPassword = async (req, res) => {
