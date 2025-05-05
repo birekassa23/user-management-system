@@ -26,22 +26,21 @@ const userSchema = new mongoose.Schema(
         role: {
             type: String,
             required: true,
-            enum: ['admin', 'editor', 'viewer'], // Correct enum validation
+            enum: ['admin', 'editor', 'viewer'], 
         },
         avatar: {
-            type: String, // URL or file path of the uploaded avatar
-            default: "assets/images/default.png", // Default avatar if none is uploaded
+            type: String,
+            default: "assets/images/default.png", 
         },
-        // Added fields for forgot password functionality
-        resetToken: { // Temporary token for password reset
+        resetToken: {
             type: String,
         },
-        resetTokenExpiration: { // Expiration time for the reset token
+        resetTokenExpiration: {
             type: Date,
         },
     },
-    { timestamps: true } // Automatically add createdAt and updatedAt
+    { timestamps: true }
 );
 
-// Export User model
+
 export const User = mongoose.model("User", userSchema);
