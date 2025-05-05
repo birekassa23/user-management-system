@@ -3,8 +3,8 @@ import nodemailer from 'nodemailer';
 
 export const sendResetPasswordEmail = async (email, resetToken) => {
     const transporter = nodemailer.createTransport({
-        host: process.env.EMAIL_HOST, // smtp.gmail.com
-        port: process.env.EMAIL_PORT, // 587
+        host: process.env.EMAIL_HOST, 
+        port: process.env.EMAIL_PORT, 
         secure: false, // use TLS
         auth: {
             user: process.env.EMAIL_USER,
